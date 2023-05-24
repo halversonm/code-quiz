@@ -1,3 +1,7 @@
+var questionText = document.querySelector("h1"); 
+var pText = document.querySelector("p");
+var startBtn = document.querySelector("#start");
+
 var questions = [
     {
         question: "Commonly used data types does NOT include:",
@@ -24,10 +28,15 @@ var questions = [
         choices: ['JavaScript', 'terminal/bash', 'for loops', 'console.log'],
         answer: 'console.log'
     },
-]
+];
 
-console.log(questions[0]);
-console.log(questions[0].choices[1]);
+
+
+
+console.log(questions[0].question);
+//questionText.textContent = questions[0].question;
+
+
 // questions[currentQuestion].choices
 // questions[currentQuestion].question
 // questions[currentQuestion].answer
