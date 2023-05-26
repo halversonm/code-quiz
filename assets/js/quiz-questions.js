@@ -54,6 +54,7 @@ function changeQuestion() {
     }
 };
 
+// Evaluation Functions
 function displayCorrect() {
     displayEval.textContent = "Correct!";
     changeQuestion();
@@ -64,6 +65,7 @@ function displayWrong() {
     changeQuestion();
 };
 
+// Option Selection Functions
 function evaluateOption1() {
     questionsAnswered++;
     displayWrong();
