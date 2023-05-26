@@ -1,13 +1,18 @@
 var questionText = document.querySelector("h1"); 
 var pText = document.querySelector("p");
 var startBtn = document.querySelector("#start");
-var answerList = document.querySelector("ol");
+var optionsContainer = document.querySelector(".options-container");
 var option1 = document.querySelector("#option1");
 var option2 = document.querySelector("#option2");
 var option3 = document.querySelector("#option3");
 var option4 = document.querySelector("#option4");
 var displayEval = document.querySelector("#evaluation");
+var secondsLeft = document.querySelector("#seconds");
+var endForm = document.querySelector(".end-form");
+var endSubmitBtn = document.querySelector("#endSubmit");
+var time = 75;
 var questionsAnswered = 0;
+secondsLeft.textContent = time;
 
 var questions = [
     {
@@ -37,8 +42,18 @@ var questions = [
     },
 ];
 
+function timer() {
+    var timerInterval = setInterval(function() {
+        time--;
+        secondsLeft.textContent = time;
+
+    }, 1000);
+
+};
+
 function changeQuestion() {
     if (questionsAnswered < questions.length) {
+        optionsContainer.setAttribute("style", "display: flex");
         pText.textContent = "";
         startBtn.textContent = "";
         questionText.textContent = questions[questionsAnswered].question;
@@ -46,11 +61,12 @@ function changeQuestion() {
         option2.textContent = "2. " + questions[questionsAnswered].choices[1];
         option3.textContent = "3. " + questions[questionsAnswered].choices[2];
         option4.textContent = "4. " + questions[questionsAnswered].choices[3];
-        console.log(questionsAnswered);
+        questionsAnswered++;
     }
 
     else {
-        return;
+        clearInterval(timer);
+        endScreen();
     }
 };
 
@@ -61,46 +77,60 @@ function displayCorrect() {
 };
 
 function displayWrong() {
-    displayEval.textContent = "Inorrect! Time deduction"
+    time -= 5;
+    displayEval.textContent = "Incorrect! Time deduction"
     changeQuestion();
 };
 
 // Option Selection Functions
 function evaluateOption1() {
-    questionsAnswered++;
     displayWrong();
 };
 
 function evaluateOption2() {
-    questionsAnswered++;
     displayWrong();
 };
 
 function evaluateOption3() {
-    if (questionsAnswered == 1 || questionsAnswered == 3) {
-        questionsAnswered++;
+    if (questionsAnswered == 2 || questionsAnswered == 4) {
         displayCorrect(); 
     }
 
     else {
-        questionsAnswered++;
         displayWrong();
     }
 };
 
 function evaluateOption4() {
-    if (questionsAnswered == 0 || questionsAnswered == 2 || questionsAnswered == 4) {
-        questionsAnswered++;
+    if (questionsAnswered == 1 || questionsAnswered == 3 || questionsAnswered == 5) {      
         displayCorrect();
     }
 
     else {
-        questionsAnswered++;
         displayWrong();
     }
 };
 
-startBtn.addEventListener("click", changeQuestion);
+function endScreen() {
+    endForm.setAttribute("style", "display: block");
+    questionText.textContent = "Great Job!";
+    pText.textContent = "Your final score is " + time;
+    optionsContainer.setAttribute("style", "display: none");
+}
+
+endSubmitBtn.addEventListener("click", function() {
+    var initialEntry = document.querySelector("#initial-entry").value;
+        localStorage.setItem("initials", initialEntry);
+        localStorage.setItem("score", time);
+
+});
+
+function startQuiz() {
+    changeQuestion();
+    timer();
+}
+
+startBtn.addEventListener("click", startQuiz);
 option1.addEventListener("click", evaluateOption1);
 option2.addEventListener("click", evaluateOption2);
 option3.addEventListener("click", evaluateOption3);

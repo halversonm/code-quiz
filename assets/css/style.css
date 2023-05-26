@@ -9,7 +9,7 @@
 }
 
 .options-container {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
 }
@@ -20,4 +20,8 @@
 #option4 {
     width: 11%;
     text-align: left;
+}
+
+.end-form {
+    display: none;
 }
